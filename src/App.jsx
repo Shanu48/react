@@ -1,124 +1,70 @@
-import React from "react";
-
-const containerStyle = {
-  maxWidth: "1100px",
-  margin: "auto",
-  padding: "20px",
-  textAlign: "center",
-  backgroundColor: "#ffffff",
-  borderRadius: "10px",
-  boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-  fontFamily: "Arial, sans-serif",
-};
-
-const navStyle = {
-  display: "flex",
-  justifyContent: "center",
-  gap: "25px",
-  padding: "15px 0",
-  backgroundColor: "#222",
-  color: "white",
-  fontSize: "18px",
-  fontWeight: "bold",
-  borderRadius: "10px",
-};
-
-const navLinkStyle = {
-  color: "white",
-  textDecoration: "none",
-  padding: "8px 15px",
-  borderRadius: "5px",
-  transition: "0.3s",
-};
-
-const productContainer = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-  gap: "25px",
-  marginTop: "20px",
-};
-
-const productCard = {
-  backgroundColor: "#f9f9f9",
-  padding: "15px",
-  borderRadius: "8px",
-  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
-  transition: "0.3s",
-  cursor: "pointer",
-};
-
-const productImage = {
-  width: "100%",
-  borderRadius: "5px",
-};
-
-const productTitle = {
-  fontSize: "20px",
-  fontWeight: "bold",
-  margin: "10px 0",
-};
-
-const productPrice = {
-  fontSize: "18px",
-  color: "#28a745",
-  fontWeight: "bold",
-};
-
-const buttonStyle = {
-  backgroundColor: "#28a745",
-  color: "white",
-  padding: "10px",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-  marginTop: "10px",
-  transition: "0.3s",
-};
-
-const footerStyle = {
-  marginTop: "30px",
-  padding: "15px",
-  backgroundColor: "#222",
-  color: "white",
-  borderRadius: "5px",
-  fontSize: "14px",
-};
+import React, { useState } from "react";
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const products = [
+    { id: 1, name: "Laptop", price: 999, image: "/images/laptop.jpg" },
+    { id: 2, name: "Smartphone", price: 599, image: "/images/smartphone.jpg" },
+    { id: 3, name: "Headphones", price: 199, image: "/images/headphone.jpg" },
+  ];
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
   return (
-    <div style={containerStyle}>
-      <h1 style={{ fontSize: "32px", marginBottom: "10px", color: "#222" }}>eCommerce Store</h1>
-      <nav style={navStyle}>
-        <a href="#" style={{ ...navLinkStyle, backgroundColor: "#444" }}>Home</a>
-        <a href="#" style={navLinkStyle}>Products</a>
-        <a href="#" style={navLinkStyle}>Cart 🛒</a>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f3f4f6", padding: "24px", color: "#1f2937" }}>
+      {/* Header */}
+      <header style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
+        eCommerce Store
+      </header>
+
+      {/* Navigation */}
+      <nav style={{ display: "flex", justifyContent: "center", gap: "16px", fontSize: "18px", marginBottom: "24px" }}>
+        <a href="#" style={{ color: "#2563eb", textDecoration: "none" }}>Home</a>
+        <a href="#" style={{ color: "#2563eb", textDecoration: "none" }}>Products</a>
+        <a href="#" style={{ color: "#2563eb", textDecoration: "none" }}>Cart ({cart.length})</a>
       </nav>
 
-      <h2 style={{ fontSize: "24px", marginTop: "20px", color: "#555" }}>Shop Our Products</h2>
-      <div style={productContainer}>
-        <div style={{ ...productCard, ":hover": { transform: "scale(1.05)" } }}>
-          <img src="/images/laptop.jpg" alt="Laptop" style={productImage} />
-          <h3 style={productTitle}>Laptop</h3>
-          <p style={productPrice}>$999</p>
-          <button style={{ ...buttonStyle, ":hover": { backgroundColor: "#218838" } }}>Add to Cart</button>
-        </div>
-
-        <div style={{ ...productCard, ":hover": { transform: "scale(1.05)" } }}>
-          <img src="/images/smartphone.jpg" alt="Smartphone" style={productImage} />
-          <h3 style={productTitle}>Smartphone</h3>
-          <p style={productPrice}>$599</p>
-          <button style={{ ...buttonStyle, ":hover": { backgroundColor: "#218838" } }}>Add to Cart</button>
-        </div>
-
-        <div style={{ ...productCard, ":hover": { transform: "scale(1.05)" } }}>
-          <img src="/images/headphone.jpg" alt="Headphones" style={productImage} />
-          <h3 style={productTitle}>Headphones</h3>
-          <p style={productPrice}>$199</p>
-          <button style={{ ...buttonStyle, ":hover": { backgroundColor: "#218838" } }}>Add to Cart</button>
-        </div>
+      {/* Product List */}
+      <h2 style={{ textAlign: "center", fontSize: "20px", fontWeight: "600", marginBottom: "16px" }}>Shop Our Products</h2>
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+        gap: "16px",
+        maxWidth: "800px",
+        margin: "0 auto"
+      }}>
+        {products.map((product) => (
+          <div key={product.id} style={{
+            backgroundColor: "#fff",
+            padding: "16px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            textAlign: "center"
+          }}>
+            <img src={product.image} alt={product.name} style={{ width: "100%", height: "150px", objectFit: "cover", borderRadius: "8px" }} />
+            <h3 style={{ fontSize: "18px", fontWeight: "600", marginTop: "8px" }}>{product.name}</h3>
+            <p style={{ color: "#4b5563" }}>${product.price}</p>
+            <button onClick={() => addToCart(product)} style={{
+              marginTop: "8px",
+              padding: "8px 16px",
+              backgroundColor: "#10b981",
+              color: "white",
+              fontWeight: "600",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer"
+            }}>
+              Add to Cart
+            </button>
+          </div>
+        ))}
       </div>
 
-      <footer style={footerStyle}>
+      {/* Footer */}
+      <footer style={{ textAlign: "center", fontSize: "14px", color: "#6b7280", marginTop: "24px" }}>
         © 2025 eCommerce Store. All rights reserved.
       </footer>
     </div>
